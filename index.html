@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATELIER — Colección</title>
+<meta name="description" content="Piezas de autor. Edición limitada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16120f;--ink2:#201a16;--bone:#ece6da;--mute:#9b9185;--brass:#c2a068;--line:rgba(236,230,218,.14);
+--serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);scroll-behavior:auto}
+body{font-family:var(--sans);font-weight:300;color:var(--bone);background:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.serif{font-family:var(--serif);font-weight:300}
+nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;mix-blend-mode:difference}
+nav b{font-family:var(--serif);font-weight:500;font-size:1.5rem;letter-spacing:.3em}
+nav button{font-size:.85rem;letter-spacing:.08em}
+/* HERO */
+.hero{height:100vh;min-height:620px;display:grid;place-items:center;position:relative;overflow:hidden}
+.orb{position:absolute;width:min(62vw,620px);aspect-ratio:1;border-radius:50%;
+background:radial-gradient(circle at 32% 28%,#e6cf9d,#b08a4c 38%,#4a3820 70%,#16120f 100%);filter:blur(1px);box-shadow:0 0 160px rgba(194,160,104,.25)}
+.ring{position:absolute;width:min(86vw,880px);aspect-ratio:1;border:1px solid var(--line);border-radius:50%}
+.hero h1{position:relative;font-family:var(--serif);font-weight:300;font-size:clamp(3.4rem,13vw,12rem);line-height:.9;text-align:center;letter-spacing:-.02em}
+.hero h1 span{display:block;overflow:hidden}.hero h1 i{display:block;font-style:italic}
+.hero p{position:absolute;bottom:7vh;left:50%;transform:translateX(-50%);font-size:.8rem;letter-spacing:.2em;color:var(--mute)}
+/* EXPAND */
+.expand{height:100vh;display:grid;place-items:center;overflow:hidden}
+.frame{width:34vw;height:46vh;background:linear-gradient(160deg,#2b2219,#0f0c0a 60%,#3a2c1c);display:grid;place-items:center;position:relative}
+.frame h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,6vw,5.5rem);text-align:center;padding:0 6vw;line-height:1.05}
+/* STORY */
+.story{height:100vh;position:relative;display:flex;align-items:center;padding:0 8vw;overflow:hidden}
+.story .disc{position:absolute;right:-8vw;width:62vh;height:62vh;border-radius:50%;border:1px solid var(--brass);display:grid;place-items:center}
+.story .disc::after{content:"";width:70%;height:70%;border-radius:50%;background:conic-gradient(from 0deg,#2b2219,#c2a068,#2b2219,#6e5632,#2b2219)}
+.chap{position:absolute;max-width:30ch;opacity:0}
+.chap h3{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,5vw,4.4rem);line-height:1.02;margin-bottom:1.2rem}
+.chap p{color:var(--mute);line-height:1.7;max-width:38ch}
+/* PRODUCTS */
+.shop{padding:18vh 5vw 14vh}
+.shop h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,7vw,6rem);margin-bottom:8vh}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:3.5vw;perspective:1200px}
+.card{position:relative;transform-style:preserve-3d;will-change:transform}
+.card .img{aspect-ratio:4/5;background:linear-gradient(150deg,var(--ink2),#0e0b09);display:grid;place-items:center;overflow:hidden;position:relative}
+.card .img img{width:100%;height:100%;object-fit:cover}
+.card .img .ph{font-family:var(--serif);font-size:7rem;font-style:italic;color:rgba(194,160,104,.35);transform:translateZ(60px)}
+.card .glare{position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,240,210,.16),transparent 55%);pointer-events:none}
+.card .meta{display:flex;justify-content:space-between;align-items:baseline;padding-top:1.1rem;transform:translateZ(30px)}
+.card h3{font-family:var(--serif);font-weight:500;font-size:1.6rem}
+.card .price{color:var(--brass)}
+.card .desc{color:var(--mute);font-size:.88rem;margin:.4rem 0 1rem;line-height:1.6}
+.add{border:1px solid var(--line);padding:.85rem 1.4rem;width:100%;letter-spacing:.06em;font-size:.85rem;transition:background .3s,color .3s}
+.add:hover:not(:disabled){background:var(--bone);color:var(--ink)}
+.add:disabled{color:var(--mute);cursor:not-allowed}
+.stock{font-size:.75rem;color:var(--mute);margin-bottom:.8rem}
+.msg{color:var(--mute);padding:4rem 0}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2.2rem;padding:9vh 5vw;border-top:1px solid var(--line)}
+.badge{display:flex;gap:1rem;align-items:center}.badge svg{flex:none;stroke:var(--brass);fill:none;stroke-width:1.3}
+.badge b{display:block;font-weight:600;font-size:.92rem;margin-bottom:.15rem}.badge span{color:var(--mute);font-size:.8rem;line-height:1.5}
+footer{padding:9vh 5vw 14vh;border-top:1px solid var(--line);color:var(--mute);font-size:.88rem;background:var(--ink2)}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr;gap:3rem}
+.fg h4{font-weight:600;color:var(--bone);font-size:.9rem;margin-bottom:1rem}
+.fg .brand{font-family:var(--serif);font-weight:500;font-size:1.7rem;letter-spacing:.3em;color:var(--bone);display:block;margin-bottom:1rem}
+.fg p,.fg button{display:block;line-height:1.9;text-align:left;color:var(--mute)}
+.fg button:hover,.fg a:hover{color:var(--brass)}.fg a{color:var(--mute);text-decoration:none}
+.fb{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:4rem;padding-top:1.5rem;border-top:1px solid var(--line);font-size:.8rem}
+.doc h4{color:var(--bone);font-weight:600;margin:1.2rem 0 .3rem;font-size:.95rem}.doc p,.doc li{color:var(--mute);line-height:1.75;font-size:.9rem}.doc ul{padding-left:1.2rem}
+.doc a{color:var(--brass)}.doc .upd{font-size:.78rem;margin-bottom:1rem}
+.mini{display:flex;gap:.5rem 1rem;flex-wrap:wrap;margin:1rem 0 1.2rem;font-size:.72rem;color:var(--mute)}.mini span{display:flex;align-items:center;gap:.35rem}
+.mini svg{stroke:var(--brass);fill:none;stroke-width:1.6}
+@media(max-width:800px){.fg{grid-template-columns:1fr 1fr}}
+/* DRAWER + MODAL */
+.shade{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:80;opacity:0;pointer-events:none;transition:opacity .4s}
+.shade.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(100%,440px);background:var(--ink2);z-index:90;transform:translateX(100%);transition:transform .6s cubic-bezier(.7,0,.2,1);padding:2rem;display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.drawer h2{font-family:var(--serif);font-weight:300;font-size:2.2rem;margin-bottom:1.5rem;display:flex;justify-content:space-between}
+.items{flex:1;overflow:auto}
+.row{display:grid;grid-template-columns:1fr auto;gap:.3rem 1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.row small{color:var(--mute)}
+.qty button{width:28px;height:28px;border:1px solid var(--line)}
+.qty span{display:inline-block;min-width:28px;text-align:center}
+.total{display:flex;justify-content:space-between;padding:1.2rem 0;font-size:1.2rem}
+.pay{background:var(--brass);color:var(--ink);padding:1.1rem;width:100%;font-weight:600;letter-spacing:.06em}
+.pay:disabled{opacity:.5}
+.modal{position:fixed;inset:0;z-index:95;display:none;place-items:center;padding:1rem}
+.modal.on{display:grid}
+.box{background:var(--ink2);border:1px solid var(--line);padding:2rem;width:min(100%,560px);max-height:90vh;overflow:auto}
+.box h3{font-family:var(--serif);font-weight:300;font-size:1.9rem;margin-bottom:1rem}
+.box input{display:block;width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);padding:.8rem 0;margin-bottom:1rem}
+.box .small{padding:.5rem .9rem;border:1px solid var(--line);margin:.2rem}
+.err{color:#d98b7a;font-size:.85rem;min-height:1.2em;margin-top:.6rem}
+.adm-row{display:grid;grid-template-columns:1fr 70px 90px auto;gap:.5rem;align-items:center;margin-bottom:.4rem}
+.adm-row input{margin:0;padding:.4rem}
+/* WHATSAPP */
+.wa{position:fixed;right:22px;bottom:22px;z-index:70}
+.wa-btn{width:62px;height:62px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 30px rgba(37,211,102,.35)}
+.wa-btn::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:pulse 2.4s infinite}
+@keyframes pulse{to{transform:scale(1.6);opacity:0}}
+.wa-panel{position:absolute;right:0;bottom:76px;width:min(88vw,340px);background:var(--ink2);border:1px solid var(--line);display:none}
+.wa-panel.on{display:block}
+.wa-head{background:#128c4a;padding:.9rem 1.1rem;font-weight:600;font-size:.9rem}
+.wa-log{padding:1rem;height:230px;overflow:auto;display:flex;flex-direction:column;gap:.5rem}
+.bub{background:rgba(255,255,255,.08);padding:.6rem .8rem;font-size:.85rem;line-height:1.5;max-width:88%}
+.bub.me{background:#1f6b45;align-self:flex-end}
+.opts{padding:0 1rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.opts button{border:1px solid #25d366;padding:.4rem .7rem;font-size:.78rem;color:#7be3a6}
+@media(max-width:700px){.frame{width:70vw}.adm-row{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav><b>ATELIER</b><button id="openCart" aria-label="Abrir carrito">Carrito (<span id="count">0</span>)</button></nav>
+
+<header class="hero" id="hero">
+  <div class="ring" id="ring"></div>
+  <div class="orb" id="orb"></div>
+  <h1><span><i class="l">Forma</i></span><span><i class="l">y silencio</i></span></h1>
+  <p>DESLIZA PARA DESCUBRIR</p>
+</header>
+
+<section class="expand" id="expand">
+  <div class="frame" id="frame"><h2>Cada pieza se hace una sola vez.</h2></div>
+</section>
+
+<section class="story" id="story">
+  <div class="chap"><h3>Materia noble</h3><p>Elegimos pocos materiales y los llevamos al límite. Nada sobra, nada falta.</p></div>
+  <div class="chap"><h3>Hecho a mano</h3><p>Cada detalle pasa por manos que llevan años perfeccionando el oficio.</p></div>
+  <div class="chap"><h3>Edición limitada</h3><p>Cuando una pieza se agota, no vuelve. Lo que ves aquí es el stock real.</p></div>
+  <div class="disc" id="disc"></div>
+</section>
+
+<section class="shop" id="shop">
+  <h2>La colección</h2>
+  <div class="grid" id="grid"><p class="msg">Cargando colección… (la primera visita puede tardar unos segundos)</p></div>
+</section>
+
+<section class="trust" id="trust">
+  <div class="badge"><svg width="38" height="38" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg><div><b>Mercado Pago</b><span>Paga con tarjeta, transferencia o dinero en cuenta.</span></div></div>
+  <div class="badge"><svg width="38" height="38" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><div><b>Conexión cifrada SSL</b><span>Tus datos viajan protegidos con HTTPS.</span></div></div>
+  <div class="badge"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M2 6h12v11H2zM14 10h4l4 3v4h-8"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><div><b>Envío garantizado</b><span>Seguimiento y reposición si tu pedido no llega.</span></div></div>
+  <div class="badge"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg><div><b>Compra protegida</b><span>10 días para arrepentirte, sin costo.</span></div></div>
+</section>
+<footer>
+  <div class="fg">
+    <div><b class="brand">ATELIER</b><p>Piezas de autor en edición limitada. Diseñadas con calma, hechas para durar.</p></div>
+    <div><h4>Información legal</h4>
+      <button data-doc="privacidad">Privacidad y datos</button><button data-doc="terminos">Términos y condiciones</button><button data-doc="devoluciones">Devoluciones y reembolsos</button></div>
+    <div><h4>Atención al cliente</h4><p id="fContact"></p><button data-doc="contacto">Ver todos los canales</button></div>
+    <div><h4>Pagos y envíos</h4><p>Mercado Pago</p><p>Envíos a todo el país</p><p>Conexión HTTPS</p></div>
+  </div>
+  <div class="fb"><span id="fLegal"></span><button id="openAdmin">Acceso administración</button></div>
+</footer>
+
+<div class="shade" id="shade"></div>
+
+<aside class="drawer" id="drawer" aria-label="Carrito">
+  <h2>Tu selección <button id="closeCart" aria-label="Cerrar">×</button></h2>
+  <div class="items" id="items"></div>
+  <input id="buyerEmail" type="email" placeholder="Tu email para el recibo" style="background:transparent;border:0;border-bottom:1px solid var(--line);padding:.8rem 0;margin-top:1rem;color:var(--bone)">
+  <div class="total"><span>Total</span><b id="total">$0</b></div>
+  <div class="mini"><span><svg width="14" height="14" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Pago cifrado</span><span><svg width="14" height="14" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Mercado Pago</span><span><svg width="14" height="14" viewBox="0 0 24 24"><path d="M2 6h12v11H2zM14 10h4l4 3v4h-8"/></svg>Envío garantizado</span></div>
+  <button class="pay" id="pay">Pagar con Mercado Pago</button>
+  <div class="err" id="cartErr"></div>
+</aside>
+
+<div class="modal" id="adminModal"><div class="box" id="adminBox"></div></div>
+<div class="modal" id="legalModal" role="dialog" aria-modal="true"><div class="box doc" id="legalBox"></div></div>
+
+<div class="wa">
+  <div class="wa-panel" id="waPanel">
+    <div class="wa-head">Asistente ATELIER</div>
+    <div class="wa-log" id="waLog"></div>
+    <div class="opts" id="waOpts"></div>
+  </div>
+  <button class="wa-btn" id="waBtn" aria-label="Abrir asistente de WhatsApp">
+    <svg width="34" height="34" viewBox="0 0 32 32" fill="#fff"><path d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.8 2 6.8L3 29l6.6-2c1.9 1 4 1.6 6.3 1.6 7.200 0 13-5.700 13-12.800S23.200 3 16 3zm0 23.300c-2 0-3.900-.6-5.500-1.600l-.4-.2-3.900 1.100 1.100-3.800-.3-.4A10.200 10.200 0 0 1 5.700 15.800C5.700 10.100 10.300 5.500 16 5.500s10.300 4.600 10.300 10.300S21.700 26.300 16 26.300zm5.600-7.600c-.3-.2-1.800-.9-2.100-1-.3-.1-.5-.2-.7.200-.2.300-.8 1-1 1.200-.2.200-.4.200-.7.100-.3-.2-1.300-.5-2.500-1.500-.9-.8-1.500-1.800-1.700-2.100-.2-.3 0-.5.100-.6l.5-.5c.1-.2.200-.3.300-.5.100-.2 0-.4 0-.5l-1-2.300c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.100-.8.400-.3.300-1.100 1.100-1.100 2.600s1.100 3 1.300 3.200c.2.200 2.200 3.400 5.300 4.700 3.100 1.300 3.100.9 3.700.8.600-.1 1.800-.7 2-1.400.3-.7.300-1.300.2-1.400-.1-.2-.3-.3-.6-.4z"/></svg>
+  </button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ============ CONFIGURACIÓN ============ */
+const CFG = {
+  API: 'https://tienda-backend-2-glzy.onrender.com',
+  WA: '5490000000000',            // ← número del cliente, con código de país y sin "+"
+  // ← Completa con los datos reales del negocio; se insertan en todos los textos legales:
+  LEGAL: { razon: '[Razón social]', cuit: '[CUIT]', dir: '[Dirección, Ciudad, Provincia]', email: 'contacto@tudominio.com', tel: '+54 000 000-0000', horario: 'Lunes a viernes, 9 a 18 h' },
+  // Rutas del backend (ajústalas si tu API usa otras):
+  EP: { products:'/api/productos', checkout:'/api/checkout', login:'/api/admin/login' }
+};
+const $ = s => document.querySelector(s);
+const money = n => new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(n);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(path, opt = {}) {
+  const h = {'Content-Type':'application/json'};
+  const t = sessionStorage.getItem('adm'); if (opt.auth && t) h.Authorization = 'Bearer ' + t;
+  const r = await fetch(CFG.API + path, { method: opt.method || 'GET', headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || d.message || 'Error ' + r.status);
+  return d;
+}
+
+/* ============ ESTADO ============ */
+let products = [], cart = [];
+try { cart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (e) {}
+const saveCart = () => { try { localStorage.setItem('cart', JSON.stringify(cart)); } catch (e) {} };
+
+/* ============ PRODUCTOS ============ */
+async function loadProducts() {
+  try {
+    const d = await api(CFG.EP.products);
+    products = Array.isArray(d) ? d : (d.productos || []);
+  } catch (e) {
+    $('#grid').innerHTML = '<p class="msg">No pudimos cargar la colección. Revisa tu conexión y vuelve a intentarlo.</p>';
+    return;
+  }
+  renderProducts(); renderCart();
+}
+function renderProducts() {
+  const g = $('#grid');
+  if (!products.length) { g.innerHTML = '<p class="msg">Pronto habrá nuevas piezas.</p>'; return; }
+  g.innerHTML = products.map(p => `
+    <article class="card" data-id="${esc(p.id)}">
+      <div class="img">${p.imagen ? `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">` : `<span class="ph">${esc((p.nombre||'A')[0])}</span>`}<div class="glare"></div></div>
+      <div class="meta"><h3>${esc(p.nombre)}</h3><span class="price">${money(p.precio)}</span></div>
+      <p class="desc">${esc(p.descripcion || '')}</p>
+      <p class="stock">${p.stock > 0 ? (p.stock <= 5 ? 'Últimas ' + p.stock + ' unidades' : 'Disponible') : 'Agotado'}</p>
+      <button class="add" ${p.stock > 0 ? '' : 'disabled'}>${p.stock > 0 ? 'Añadir al carrito' : 'Agotado'}</button>
+    </article>`).join('');
+  document.querySelectorAll('.card').forEach(initTilt);
+  document.querySelectorAll('.add').forEach(b => b.onclick = () => addToCart(b.closest('.card').dataset.id));
+  gsap.from('.card', { y: 90, opacity: 0, rotateX: -12, duration: 1.1, ease: 'power3.out', stagger: .12,
+    scrollTrigger: { trigger: '#grid', start: 'top 82%' } });
+}
+function initTilt(el) {
+  if (matchMedia('(hover:none)').matches) return;
+  const rx = gsap.quickTo(el, 'rotationX', { duration: .5 }), ry = gsap.quickTo(el, 'rotationY', { duration: .5 });
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    ry((x - .5) * 16); rx(-(y - .5) * 16);
+    el.style.setProperty('--mx', x * 100 + '%'); el.style.setProperty('--my', y * 100 + '%');
+  });
+  el.addEventListener('mouseleave', () => { rx(0); ry(0); });
+}
+
+/* ============ CARRITO ============ */
+const stockOf = id => (products.find(p => String(p.id) === String(id)) || {}).stock || 0;
+function addToCart(id) {
+  const it = cart.find(c => String(c.id) === String(id)), max = stockOf(id);
+  if ((it ? it.cantidad : 0) >= max) return flash('No hay más unidades disponibles.');
+  it ? it.cantidad++ : cart.push({ id, cantidad: 1 });
+  saveCart(); renderCart(); toggleCart(true);
+}
+function renderCart() {
+  cart = cart.filter(c => products.some(p => String(p.id) === String(c.id)));
+  let total = 0, n = 0;
+  $('#items').innerHTML = cart.length ? cart.map(c => {
+    const p = products.find(p => String(p.id) === String(c.id)); total += p.precio * c.cantidad; n += c.cantidad;
+    return `<div class="row"><b>${esc(p.nombre)}</b><span>${money(p.precio * c.cantidad)}</span>
+      <div class="qty"><button data-d="-1" data-id="${esc(c.id)}" aria-label="Quitar uno">−</button><span>${c.cantidad}</span><button data-d="1" data-id="${esc(c.id)}" aria-label="Sumar uno">+</button></div>
+      <small>${money(p.precio)} c/u</small></div>`;
+  }).join('') : '<p class="msg">Tu carrito está vacío. Elige una pieza de la colección.</p>';
+  $('#total').textContent = money(total); $('#count').textContent = n; $('#pay').disabled = !cart.length;
+  document.querySelectorAll('.qty button').forEach(b => b.onclick = () => {
+    const it = cart.find(c => String(c.id) === b.dataset.id), d = +b.dataset.d;
+    if (d > 0 && it.cantidad >= stockOf(it.id)) return flash('No hay más unidades disponibles.');
+    it.cantidad += d; if (it.cantidad <= 0) cart = cart.filter(c => c !== it);
+    saveCart(); renderCart();
+  });
+  saveCart();
+}
+function flash(m) { $('#cartErr').textContent = m; setTimeout(() => $('#cartErr').textContent = '', 3500); }
+function toggleCart(on) { $('#drawer').classList.toggle('on', on); $('#shade').classList.toggle('on', on); }
+$('#openCart').onclick = () => toggleCart(true);
+$('#closeCart').onclick = () => toggleCart(false);
+$('#shade').onclick = () => { toggleCart(false); closeAdmin(); closeLegal(); };
+addEventListener('keydown', e => { if (e.key === 'Escape') { toggleCart(false); closeAdmin(); closeLegal(); } });
+// El backend valida stock, lo descuenta y crea la preferencia de Mercado Pago (el Access Token nunca va en el frontend).
+$('#pay').onclick = async () => {
+  const btn = $('#pay'); btn.disabled = true; btn.textContent = 'Preparando pago…';
+  try {
+    const d = await api(CFG.EP.checkout, { method: 'POST', body: { items: cart.map(c => ({ id: c.id, cantidad: c.cantidad })), email: $('#buyerEmail').value.trim() } });
+    const url = d.init_point || d.url;
+    if (!url) throw new Error('El servidor no devolvió el enlace de pago.');
+    cart = []; saveCart(); location.href = url;
+  } catch (e) { flash(e.message); btn.disabled = false; btn.textContent = 'Pagar con Mercado Pago'; loadProducts(); }
+};
+
+/* ============ ADMIN (la validación real ocurre en el backend con ADMIN_EMAIL / ADMIN_PASSWORD) ============ */
+function closeAdmin() { $('#adminModal').classList.remove('on'); }
+$('#openAdmin').onclick = () => { $('#adminModal').classList.add('on'); $('#shade').classList.add('on'); sessionStorage.getItem('adm') ? adminPanel() : adminLogin(); };
+function adminLogin() {
+  $('#adminBox').innerHTML = `<h3>Administración</h3><input id="aE" type="email" placeholder="Email" autocomplete="username"><input id="aP" type="password" placeholder="Contraseña" autocomplete="current-password"><button class="pay" id="aGo">Entrar</button><div class="err" id="aErr"></div>`;
+  $('#aGo').onclick = async () => {
+    try { const d = await api(CFG.EP.login, { method: 'POST', body: { email: $('#aE').value, password: $('#aP').value } });
+      sessionStorage.setItem('adm', d.token); adminPanel();
+    } catch (e) { $('#aErr').textContent = 'Credenciales incorrectas o servidor no disponible.'; }
+  };
+}
+function adminPanel() {
+  $('#adminBox').innerHTML = `<h3>Inventario</h3>${products.map(p => `<div class="adm-row" data-id="${esc(p.id)}"><span>${esc(p.nombre)}</span><input type="number" min="0" value="${+p.stock}" aria-label="Stock"><input type="number" min="0" value="${+p.precio}" aria-label="Precio"><button class="small">Guardar</button></div>`).join('')}
+  <h3 style="margin-top:1.5rem">Nuevo producto</h3>
+  <input id="nN" placeholder="Nombre"><input id="nD" placeholder="Descripción"><input id="nP" type="number" placeholder="Precio"><input id="nS" type="number" placeholder="Stock"><input id="nI" placeholder="URL de imagen (opcional)">
+  <button class="pay" id="nAdd">Crear producto</button><button class="small" id="aOut">Cerrar sesión</button><div class="err" id="aErr"></div>`;
+  document.querySelectorAll('.adm-row .small').forEach(b => b.onclick = async () => {
+    const r = b.closest('.adm-row'), i = r.querySelectorAll('input');
+    try { await api(CFG.EP.products + '/' + r.dataset.id, { method: 'PUT', auth: 1, body: { stock: +i[0].value, precio: +i[1].value } }); b.textContent = 'Guardado'; loadProducts(); }
+    catch (e) { $('#aErr').textContent = e.message; }
+  });
+  $('#nAdd').onclick = async () => {
+    try { await api(CFG.EP.products, { method: 'POST', auth: 1, body: { nombre: $('#nN').value, descripcion: $('#nD').value, precio: +$('#nP').value, stock: +$('#nS').value, imagen: $('#nI').value } });
+      await loadProducts(); adminPanel(); } catch (e) { $('#aErr').textContent = e.message; }
+  };
+  $('#aOut').onclick = () => { sessionStorage.removeItem('adm'); closeAdmin(); $('#shade').classList.remove('on'); };
+}
+
+/* ============ WHATSAPP ASISTENTE ============ */
+const FLOW = {
+  start: { t: '¡Hola! Soy el asistente de ATELIER. ¿En qué te ayudo?', o: ['Envíos', 'Medios de pago', 'Stock de una pieza', 'Hablar con una persona'] },
+  'Envíos': { t: 'Enviamos a todo el país. Te confirmamos plazo y costo por WhatsApp según tu código postal.', o: ['Medios de pago', 'Hablar con una persona'] },
+  'Medios de pago': { t: 'Pagas de forma segura con Mercado Pago: tarjetas, transferencia y dinero en cuenta.', o: ['Envíos', 'Hablar con una persona'] },
+  'Stock de una pieza': { t: 'El stock de la colección se actualiza en tiempo real. Si algo figura agotado, escríbenos y te avisamos cuando vuelva.', o: ['Hablar con una persona'] }
+};
+function say(t, me) { const b = document.createElement('div'); b.className = 'bub' + (me ? ' me' : ''); b.textContent = t; $('#waLog').appendChild(b); $('#waLog').scrollTop = 1e5; }
+function step(k) {
+  const s = FLOW[k]; say(s.t); $('#waOpts').innerHTML = '';
+  s.o.forEach(o => { const b = document.createElement('button'); b.textContent = o; b.onclick = () => {
+    say(o, 1);
+    if (o === 'Hablar con una persona') { say('Te abro WhatsApp para que hables con nosotros.'); setTimeout(() => window.open(`https://wa.me/${CFG.WA}?text=${encodeURIComponent('Hola, vengo de la tienda y necesito ayuda.')}`, '_blank', 'noopener'), 700); }
+    else step(o); }; $('#waOpts').appendChild(b); });
+}
+let waInit = false;
+$('#waBtn').onclick = () => { $('#waPanel').classList.toggle('on'); if (!waInit) { waInit = true; step('start'); } };
+
+/* ============ LEGAL Y CONTACTO ============ */
+const L = CFG.LEGAL, hoy = new Date().toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
+const DOCS = {
+  privacidad: ['Privacidad y protección de datos', `<p class="upd">Última actualización: ${hoy}</p>
+    <h4>Responsable del tratamiento</h4><p>${esc(L.razon)} (CUIT ${esc(L.cuit)}), con domicilio en ${esc(L.dir)}, es responsable de la base de datos de clientes conforme a la Ley 25.326 de Protección de Datos Personales.</p>
+    <h4>Qué datos recopilamos</h4><ul><li>Email y datos de entrega necesarios para procesar tu pedido.</li><li>Datos de la operación (productos, importe, estado del pago).</li></ul><p>Los datos de tu tarjeta los procesa Mercado Pago; nosotros nunca los vemos ni los almacenamos.</p>
+    <h4>Para qué los usamos</h4><p>Para gestionar el pago, el envío, la atención posventa y cumplir obligaciones legales. No vendemos tus datos a terceros.</p>
+    <h4>Tus derechos</h4><p>Puedes solicitar acceso, rectificación o supresión de tus datos escribiendo a <a href="mailto:${esc(L.email)}">${esc(L.email)}</a>. La Agencia de Acceso a la Información Pública, órgano de control de la Ley 25.326, atiende las denuncias por incumplimiento.</p>
+    <h4>Seguridad</h4><p>La tienda funciona sobre conexión cifrada HTTPS y el acceso administrativo está protegido por credenciales.</p>`],
+  terminos: ['Términos y condiciones de compra', `<p class="upd">Última actualización: ${hoy}</p>
+    <h4>Vendedor</h4><p>${esc(L.razon)}, CUIT ${esc(L.cuit)}, ${esc(L.dir)}.</p>
+    <h4>Precios y stock</h4><p>Los precios están en pesos argentinos e incluyen impuestos. El stock se muestra en tiempo real y se descuenta al confirmar el pago. Si un producto se agota durante tu compra, te avisaremos y reembolsaremos el importe.</p>
+    <h4>Proceso de compra y pago</h4><p>La compra se perfecciona cuando Mercado Pago acredita el pago. Recibirás la confirmación por email.</p>
+    <h4>Envíos</h4><p>Enviamos a todo el país. El plazo y el costo se informan según tu código postal. Si el pedido no llega, lo reponemos o reembolsamos.</p>
+    <h4>Garantía</h4><p>Los productos tienen la garantía legal prevista en la Ley 24.240 de Defensa del Consumidor.</p>
+    <h4>Jurisdicción</h4><p>Rigen las leyes de la República Argentina. Como consumidor, puedes iniciar reclamos ante la autoridad de Defensa del Consumidor de tu domicilio.</p>`],
+  devoluciones: ['Devoluciones y reembolsos', `<p class="upd">Última actualización: ${hoy}</p>
+    <h4>Botón de arrepentimiento</h4><p>Tienes 10 días corridos desde que recibes el producto para arrepentirte de la compra, sin dar motivos y sin costo, según el art. 34 de la Ley 24.240. Escríbenos a <a href="mailto:${esc(L.email)}">${esc(L.email)}</a> indicando tu número de pedido.</p>
+    <h4>Condiciones del producto</h4><ul><li>Sin uso, con etiquetas y en su embalaje original.</li><li>Los costos de la devolución por arrepentimiento corren por cuenta del vendedor.</li></ul>
+    <h4>Producto defectuoso o distinto</h4><p>Reportalo dentro de los 30 días de recibido. Lo cambiamos por uno igual o reembolsamos el total.</p>
+    <h4>Reembolsos</h4><p>Se acreditan por el mismo medio de pago, a través de Mercado Pago. El plazo de acreditación depende de tu tarjeta o banco.</p>`],
+  contacto: ['Contacto y soporte', `<p>Respondemos en menos de 24 horas hábiles.</p>
+    <h4>Email</h4><p><a href="mailto:${esc(L.email)}">${esc(L.email)}</a></p>
+    <h4>WhatsApp</h4><p><a href="https://wa.me/${esc(CFG.WA)}" target="_blank" rel="noopener">Escribinos por WhatsApp</a></p>
+    <h4>Teléfono</h4><p>${esc(L.tel)}</p>
+    <h4>Horario de atención</h4><p>${esc(L.horario)}</p>
+    <h4>Domicilio</h4><p>${esc(L.dir)}</p>`]
+};
+function openDoc(k) {
+  $('#legalBox').innerHTML = `<h3>${DOCS[k][0]}</h3>${DOCS[k][1]}<button class="small" id="lClose">Cerrar</button>`;
+  $('#lClose').onclick = closeLegal; $('#legalModal').classList.add('on'); $('#shade').classList.add('on');
+  gsap.fromTo('#legalBox', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: 'power3.out' });
+}
+function closeLegal() { $('#legalModal').classList.remove('on'); if (!$('#drawer').classList.contains('on')) $('#shade').classList.remove('on'); }
+document.querySelectorAll('[data-doc]').forEach(b => b.onclick = () => openDoc(b.dataset.doc));
+$('#fContact').innerHTML = `<a href="mailto:${esc(L.email)}">${esc(L.email)}</a><br>${esc(L.tel)}<br>${esc(L.horario)}`;
+$('#fLegal').textContent = `© ${new Date().getFullYear()} ${L.razon} · CUIT ${L.cuit} · Defensa del Consumidor: reclamos ante la autoridad de tu jurisdicción`;
+
+/* ============ ANIMACIONES CINEMÁTICAS ============ */
+gsap.registerPlugin(ScrollTrigger);
+const calm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+if (!calm) {
+  gsap.from('.hero h1 .l', { yPercent: 110, duration: 1.6, ease: 'expo.out', stagger: .18, delay: .2 });
+  gsap.from('#orb', { scale: .4, opacity: 0, duration: 2, ease: 'power3.out' });
+  // Hero: al hacer scroll el título se expande y el orbe crece
+  gsap.timeline({ scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } })
+    .to('.hero h1', { scale: 1.5, opacity: 0, letterSpacing: '.05em' }, 0)
+    .to('#orb', { scale: 1.8, yPercent: 20 }, 0).to('#ring', { rotation: 90, scale: 1.3 }, 0);
+  // Parallax con el ratón
+  const ox = gsap.quickTo('#orb', 'x', { duration: 1.2 }), oy = gsap.quickTo('#orb', 'y', { duration: 1.2 });
+  const rx = gsap.quickTo('#ring', 'x', { duration: 1.8 }), ry = gsap.quickTo('#ring', 'y', { duration: 1.8 });
+  addEventListener('mousemove', e => { const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5; ox(x * 60); oy(y * 60); rx(x * -30); ry(y * -30); });
+  // Marco que se expande a pantalla completa
+  gsap.timeline({ scrollTrigger: { trigger: '#expand', start: 'top top', end: '+=120%', scrub: true, pin: true } })
+    .to('#frame', { width: '100vw', height: '100vh', ease: 'none' }).from('#frame h2', { scale: .6, opacity: 0 }, 0);
+  // Historia fijada con capítulos y disco que rota
+  const chaps = gsap.utils.toArray('.chap');
+  const tl = gsap.timeline({ scrollTrigger: { trigger: '#story', start: 'top top', end: '+=300%', scrub: true, pin: true } });
+  tl.to('#disc', { rotation: 360, scale: 1.25, ease: 'none', duration: chaps.length * 2 }, 0);
+  chaps.forEach((c, i) => tl.fromTo(c, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .5 }, i * 2).to(c, { opacity: 0, y: -60, duration: .5 }, i * 2 + 1.5));
+  gsap.from('.shop h2', { x: -120, opacity: 0, scrollTrigger: { trigger: '.shop h2', start: 'top 85%', end: 'top 45%', scrub: true } });
+  gsap.from('.badge', { y: 50, opacity: 0, duration: 1, ease: 'power3.out', stagger: .15, scrollTrigger: { trigger: '#trust', start: 'top 85%' } });
+  gsap.from('.fg > div', { y: 40, opacity: 0, duration: 1, ease: 'power3.out', stagger: .12, scrollTrigger: { trigger: 'footer', start: 'top 85%' } });
+} else { gsap.set('.chap', { opacity: 1, position: 'relative' }); }
+
+/* ============ ARRANQUE ============ */
+renderCart(); loadProducts(); setInterval(loadProducts, 30000); // refresca stock cada 30 s
+</script>
+</body>
+</html>
